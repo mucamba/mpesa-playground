@@ -91,7 +91,7 @@ app.post('/api/b2c', async (req, res) => {
 
         const data = {
             value: parseFloat(value),
-            client_number,
+            client_number:`258${client_number}`,
             agent_id: parseInt(agent_id),
             transaction_reference: parseInt(transaction_reference),
             third_party_reference: parseInt(third_party_reference)
@@ -134,7 +134,8 @@ app.post('/api/c2b', async (req, res) => {
 
         const data = {
             value: parseFloat(value),
-            client_number,
+            
+            client_number:`258${client_number}`,
             agent_id: parseInt(agent_id),
             transaction_reference: parseInt(transaction_reference),
             third_party_reference: parseInt(third_party_reference)
@@ -304,7 +305,7 @@ app.post('/api/customer-name', async (req, res) => {
         }
 
         const data = {
-            client_number,
+            client_number:`258${client_number}`,
             agent_id: parseInt(agent_id),
             third_party_reference: parseInt(third_party_reference)
         };
