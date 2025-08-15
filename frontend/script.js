@@ -99,6 +99,8 @@ async function handleApiSubmit(event, endpoint) {
     
     const form = event.target;
     const formData = new FormData(form);
+    console.log(formData);
+    
     const data = {};
     
     // Convert FormData to object
@@ -107,7 +109,7 @@ async function handleApiSubmit(event, endpoint) {
         const cleanKey = key.replace(/^[a-z0-9]+_/, '');
         data[cleanKey] = value;
     }
-    
+    console.log("Data:",data);
     // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
