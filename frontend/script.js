@@ -2,7 +2,7 @@
 
 // Global variables
 let isApiConfigured = false;
-const API_BASE_URL = "http://2blink.space:3111";
+const API_BASE_URL = "http://128.140.70.19:3111";
 
 
 // Initialize Materialize components

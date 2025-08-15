@@ -24,7 +24,12 @@ app.use((req, res, next) => {
 
 // Servir arquivos estáticos do frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
-
+app.use((req,res,next)=>{
+    if(req.body){
+        console.log('Request Body:',req.body);
+    }
+    next();
+});
 // Variável global para armazenar a instância do Mpesa
 let mpesaInstance = null;
 
