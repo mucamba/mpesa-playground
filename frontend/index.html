@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa API Playground</title>
+    
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="green darken-2">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">
+                <i class="material-icons left">payment</i>M-Pesa Playground
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#config"><i class="material-icons left">settings</i>Configuração</a></li>
+                <li><a href="#functions"><i class="material-icons left">functions</i>Funções</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="green-text text-darken-2">M-Pesa API Playground</h3>
+                    <p class="flow-text grey-text text-darken-1">
+                        Teste todas as funcionalidades da API M-Pesa de forma interativa
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Section -->
+        <div id="config" class="section">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">settings</i>Configuração da API
+                            </span>
+                            <div class="row">
+                                <form id="configForm">
+                                    <div class="input-field col s12 m6">
+                                        <input id="api_key" type="text" class="validate" required>
+                                        <label for="api_key">API Key</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="public_key" type="text" class="validate" required>
+                                        <label for="public_key">Public Key</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <select id="environment">
+                                            <option value="development" selected>Development</option>
+                                            <option value="production">Production</option>
+                                        </select>
+                                        <label>Ambiente</label>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <p>
+                                            <label>
+                                                <input type="checkbox" id="ssl" checked />
+                                                <span>Usar SSL</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light green" type="submit">
+                                            <i class="material-icons left">save</i>Configurar API
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="row">
+            <div class="col s12">
+                <div id="statusCard" class="card red lighten-4">
+                    <div class="card-content">
+                        <span class="card-title red-text">
+                            <i class="material-icons left">warning</i>API não configurada
+                        </span>
+                        <p>Configure a API M-Pesa antes de usar as funções.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Functions Section -->
+        <div id="functions" class="section">
+            <div class="row">
+                <div class="col s12">
+                    <h4 class="green-text text-darken-2">Funções da API</h4>
+                </div>
+            </div>
+
+            <!-- Tabs for different functions -->
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s2"><a href="#b2c" class="active">B2C</a></li>
+                        <li class="tab col s2"><a href="#c2b">C2B</a></li>
+                        <li class="tab col s2"><a href="#b2b">B2B</a></li>
+                        <li class="tab col s2"><a href="#reversal">Reversão</a></li>
+                        <li class="tab col s2"><a href="#status">Status</a></li>
+                        <li class="tab col s2"><a href="#customer">Cliente</a></li>
+                    </ul>
+                </div>
+
+                <!-- B2C Tab -->
+                <div id="b2c" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">send</i>Business to Client (B2C)
+                            </span>
+                            <p>Transferência de valor do agente para o cliente</p>
+                            <form id="b2cForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input id="b2c_value" type="number" step="0.01" class="validate" required>
+                                        <label for="b2c_value">Valor</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="b2c_client_number" type="text" class="validate" required>
+                                        <label for="b2c_client_number">Número do Cliente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2c_agent_id" type="number" class="validate" required>
+                                        <label for="b2c_agent_id">ID do Agente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2c_transaction_reference" type="number" class="validate" required>
+                                        <label for="b2c_transaction_reference">Referência da Transação</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2c_third_party_reference" type="number" class="validate" required>
+                                        <label for="b2c_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light blue" type="submit">
+                                            <i class="material-icons left">send</i>Executar B2C
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C2B Tab -->
+                <div id="c2b" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">call_received</i>Client to Business (C2B)
+                            </span>
+                            <p>Transferência de valor do cliente para o agente</p>
+                            <form id="c2bForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input id="c2b_value" type="number" step="0.01" class="validate" required>
+                                        <label for="c2b_value">Valor</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="c2b_client_number" type="text" class="validate" required>
+                                        <label for="c2b_client_number">Número do Cliente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="c2b_agent_id" type="number" class="validate" required>
+                                        <label for="c2b_agent_id">ID do Agente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="c2b_transaction_reference" type="number" class="validate" required>
+                                        <label for="c2b_transaction_reference">Referência da Transação</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="c2b_third_party_reference" type="number" class="validate" required>
+                                        <label for="c2b_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light orange" type="submit">
+                                            <i class="material-icons left">call_received</i>Executar C2B
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B2B Tab -->
+                <div id="b2b" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">swap_horiz</i>Business to Business (B2B)
+                            </span>
+                            <p>Transferência de valor de agente para agente</p>
+                            <form id="b2bForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input id="b2b_value" type="number" step="0.01" class="validate" required>
+                                        <label for="b2b_value">Valor</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="b2b_agent_id" type="number" class="validate" required>
+                                        <label for="b2b_agent_id">ID do Agente Remetente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2b_agent_receiver_id" type="number" class="validate" required>
+                                        <label for="b2b_agent_receiver_id">ID do Agente Destinatário</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2b_transaction_reference" type="number" class="validate" required>
+                                        <label for="b2b_transaction_reference">Referência da Transação</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="b2b_third_party_reference" type="number" class="validate" required>
+                                        <label for="b2b_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light purple" type="submit">
+                                            <i class="material-icons left">swap_horiz</i>Executar B2B
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reversal Tab -->
+                <div id="reversal" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">undo</i>Reversão de Transação
+                            </span>
+                            <p>Reverter uma transação existente</p>
+                            <form id="reversalForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input id="reversal_value" type="number" step="0.01" class="validate" required>
+                                        <label for="reversal_value">Valor</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input id="reversal_transaction_id" type="text" class="validate" required>
+                                        <label for="reversal_transaction_id">ID da Transação</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="reversal_agent_id" type="number" class="validate" required>
+                                        <label for="reversal_agent_id">ID do Agente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="reversal_security_credential" type="text" class="validate" required>
+                                        <label for="reversal_security_credential">Credencial de Segurança</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="reversal_indicator_identifier" type="text" class="validate" required>
+                                        <label for="reversal_indicator_identifier">Identificador do Indicador</label>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <input id="reversal_third_party_reference" type="number" class="validate" required>
+                                        <label for="reversal_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light red" type="submit">
+                                            <i class="material-icons left">undo</i>Executar Reversão
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Tab -->
+                <div id="status" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">info</i>Consulta de Status
+                            </span>
+                            <p>Verificar o status de uma transação</p>
+                            <form id="statusForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="status_transaction_id" type="text" class="validate" required>
+                                        <label for="status_transaction_id">ID da Transação</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="status_agent_id" type="number" class="validate" required>
+                                        <label for="status_agent_id">ID do Agente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="status_third_party_reference" type="number" class="validate" required>
+                                        <label for="status_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light teal" type="submit">
+                                            <i class="material-icons left">info</i>Consultar Status
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Name Tab -->
+                <div id="customer" class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">person</i>Nome do Cliente
+                            </span>
+                            <p>Obter o nome do cliente (requer credenciais de produção)</p>
+                            <form id="customerForm" class="api-form">
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input id="customer_client_number" type="text" class="validate" required>
+                                        <label for="customer_client_number">Número do Cliente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="customer_agent_id" type="number" class="validate" required>
+                                        <label for="customer_agent_id">ID do Agente</label>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                        <input id="customer_third_party_reference" type="number" class="validate" required>
+                                        <label for="customer_third_party_reference">Referência de Terceiros</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light indigo" type="submit">
+                                            <i class="material-icons left">person</i>Obter Nome
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Section -->
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <i class="material-icons left">code</i>Resposta da API
+                            </span>
+                            <div id="responseContainer">
+                                <p class="grey-text">As respostas da API aparecerão aqui...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer green darken-2">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">M-Pesa API Playground</h5>
+                    <p class="grey-text text-lighten-4">
+                        Ferramenta para testar e explorar as funcionalidades da API M-Pesa de Moçambique.
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="https://developer.mpesa.vm.co.mz/">Portal do Desenvolvedor</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://github.com/emagombe/mpesa-api-node">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2025 M-Pesa API Playground
+            </div>
+        </div>
+    </footer>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
+
